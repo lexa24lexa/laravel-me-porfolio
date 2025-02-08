@@ -1,0 +1,41 @@
+.navbar {
+    background-color: transparent;
+}
+
+.navbar-container {
+    height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-menu-main {
+    display: flex;
+    width: 100%;
+}
+
+.navbar-item-left,
+.navbar-item-right {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #5A5A5A;
+}
+
+.navbar-end {
+    display: flex;
+    align-items: center;
+}
+
+/* images */
+.logo {
+    height: 32px;
+}
+
+.beehance,
+.linkedin {
+    height: 20px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
