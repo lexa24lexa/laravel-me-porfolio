@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('', [BasicController::class, 'welcome'])->name('welcome');
 Route::get('/work', [BasicController::class, 'work'])->name('work');
-Route::get('/research', [BasicController::class, 'research'])->name('research');
+Route::get('/me', [BasicController::class, 'me'])->name('me');
 Route::get('/contacts', [BasicController::class, 'contacts'])->name('contacts');
 
 Route::get('/work/create', [PostController::class, 'create'])->name('posts.create');

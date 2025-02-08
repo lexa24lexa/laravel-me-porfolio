@@ -1,41 +1,35 @@
 .navbar {
-    background-color: transparent;
+    background-color: #1f345c;
+    display: flex;
+    justify-content: center;
 }
 
 .navbar-container {
-    height: 40px;
-    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    width: 100%;
 }
 
 .navbar-menu-main {
     display: flex;
-    width: 100%;
-}
-
-.navbar-item-left,
-.navbar-item-right {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #5A5A5A;
-}
-
-.navbar-end {
-    display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
-/* images */
+.navbar-item {
+    text-decoration: none;
+    color: #98c3dd;
+    font-size: 16px;
+}
+
 .logo {
-    height: 32px;
+    height: 50px;
 }
 
-.beehance,
-.linkedin {
-    height: 20px;
-    vertical-align: middle;
+.linkedin,
+.github {
+    height: 35px;
     margin-left: 10px;
 }
-

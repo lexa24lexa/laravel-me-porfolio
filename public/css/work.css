@@ -78,7 +78,7 @@
 }
 
 .icon.is-right i {
-    color: green; /* This ensures the green checkmark remains green */
+    color: green;
 }
 
 .button {

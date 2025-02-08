@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DevOps3 & Security 3</title>
+    <title>DevOps3, Security 3 & Testing</title>
 
     {{-- Compiled assets --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
