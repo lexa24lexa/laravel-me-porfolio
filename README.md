@@ -238,20 +238,21 @@ The tests will follow the **Given-When-Then** or **AAA (Arrange-Act-Assert)** pr
 - ✅ Login with correct credentials (happy path).
 - ✅ Login with incorrect credentials (unhappy path).
 - ✅ Login attempt without providing a password (unhappy path).
-![alt text](image.png)
-
+![alt text](public/image/authenticationTest.png)
+<br>
 <ins>2. CRUD Permissions Tests</ins>
 <br>
-✅ Normal user CANNOT create posts (unhappy path).
-✅ Normal user CANNOT edit posts (unhappy path).
-✅ Normal user CANNOT delete posts (unhappy path).
-❌ Admin can create, edit, update and delete posts (happy path), test FAILS – issue unknown.
-
+- ✅ Normal user CANNOT create posts (unhappy path).
+- ✅ Normal user CANNOT edit posts (unhappy path).
+- ✅ Normal user CANNOT delete posts (unhappy path).
+- ❌ Admin can create, edit, update and delete posts (happy path), test FAILS – issue unknown.
+![alt text](public/image/crudPermissionsTest.png)
+<br>
 <ins>3.Security Tests (IDOR & Session Hijacking)</ins>
 <br>
-✅ Utilizador autenticado acessa os seus próprios dados (happy path).
-❌ Utilizador tenta acessar dados de outro utilizador diretamente via URL (IDOR test).
-❌ Simulação de Session Hijacking para validar proteção.
+- ✅ Utilizador autenticado acessa os seus próprios dados (happy path).
+- ❌ Utilizador tenta acessar dados de outro utilizador diretamente via URL (IDOR test).
+- ❌ Simulação de Session Hijacking para validar proteção.
 
 ## System Testing
 Seguir Given-When-Then ou AAA
