@@ -13,6 +13,15 @@
             <a href="https://github.com/lexa24lexa" class="navbar-item" target="_blank">
                 <img src="{{ asset('image/githubLogo.png') }}" class="github" alt="Github logo">
             </a>
+            @auth
+            <span class="navbar-item">Hello, {{ Auth::user()->name }}</span>
+            <form method="POST" action="{{ route('logout') }}" class="navbar-item">
+                @csrf
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+            @else
+            <a href="{{ route('login') }}" class="navbar-item">Login</a>
+            @endauth
         </div>
     </div>
 </nav>

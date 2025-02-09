@@ -16,3 +16,13 @@ Route::post('/work', [PostController::class, 'store'])->name('posts.store');
 Route::put('/work/{post}', [PostController::class, 'update'])->name('posts.update');
 Route::get('/work/{post}/delete', [PostController::class, 'delete'])->name('posts.delete');
 Route::delete('/work/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

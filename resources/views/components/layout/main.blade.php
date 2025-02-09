@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/nav.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/work.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/auth.css') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

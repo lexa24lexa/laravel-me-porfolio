@@ -1,0 +1,52 @@
+.auth-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Faz o form ficar no centro da tela */
+}
+
+.auth-card form {
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo ligeiramente transparente */
+    padding: 2rem;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.auth-card h1,
+.auth-card label,
+.auth-card input,
+.auth-card span,
+.auth-card a {
+    color: white !important; /* Torna o texto branco */
+}
+
+.auth-card input {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.auth-card input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-card button {
+    background-color: white;
+    color: black;
+    padding: 0.7rem;
+    border-radius: 5px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-card button:hover {
+    background-color: #ccc;
+}
