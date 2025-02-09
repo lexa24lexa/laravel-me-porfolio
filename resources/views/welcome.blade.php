@@ -1,7 +1,7 @@
 <x-layout.main>
     <div class="main-container">
         <section class="main-text">
-            <h1 class="h1">DevOps 3<strong class="h1-2"> Security 3 </strong> & Testing</h1>
+            <h1 class="h1">DevOps 3<strong class="h1-2"> & Security 3 </strong></h1>
             <h2>DISCOVER</h2>
             <div class="scroll-indicator">
                 <img src="{{ asset('image/arrowScroll.png' )}}" alt="Scroll Indicator Image">
