@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\BasicController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('', [BasicController::class, 'welcome'])->name('welcome');
 Route::get('/work', [BasicController::class, 'work'])->name('work');
 Route::get('/me', [BasicController::class, 'me'])->name('me');
 Route::get('/contacts', [BasicController::class, 'contacts'])->name('contacts');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 // protected routes
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
