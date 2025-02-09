@@ -22,10 +22,10 @@ class BasicController extends Controller
         ]);
     }
 
-    /* research function */
-    public function research()
+    /* about me function */
+    public function me()
     {
-        return view("research");
+        return view("me");
     }
 
     /* contact function */

@@ -1,0 +1,75 @@
+services:
+    apache:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        ports:
+            - "8080:80"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql
+        networks:
+            - laravel
+
+    mysql:
+        image: mysql:8.0
+        restart: always
+        environment:
+            MYSQL_DATABASE: me-portfolio
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: root_password
+        ports:
+            - "3306:3306"
+        networks:
+            - laravel
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+        ports:
+            - "8081:80"
+        networks:
+            - laravel
+
+    node:
+        image: node:latest
+        restart: always
+        networks:
+            - laravel
+        volumes:
+            - .:/var/app
+        ports:
+            - 5173:5173
+        working_dir: /var/app
+        command: npm install
+        entrypoint: npm run dev
+
+    composer:
+        image: composer:2
+        restart: always
+        networks:
+            - laravel
+        volumes:
+            - .:/var/app
+        working_dir: /var/app
+        entrypoint: composer install
+        depends_on:
+            - php
+
+    php:
+        image: php:8.3-cli
+        restart: always
+        networks:
+            - laravel
+        volumes:
+            - .:/var/www/html
+
+networks:
+    laravel:
+        driver: bridge
