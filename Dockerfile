@@ -9,8 +9,9 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libzip-dev \
+    libpq-dev \
     && docker-php-ext-configure gd \
-    && docker-php-ext-install gd pdo pdo_mysql mbstring zip exif pcntl
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql pgsql mbstring zip exif pcntl
 
 RUN a2enmod rewrite
 
