@@ -2,51 +2,53 @@
     <div class="box">
         <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" id="postForm">
             @csrf
-            <h1 class="title is-4">Create a new post</h1>
-            <br>
-            <h2 class="subtitle is-6 is-italic">
-                Please fill out all the form fields and click 'Save'
-            </h2>
+            <div class="post">
+                <h1 class="title is-4">Create a new post</h1>
+                <br>
+                <h2 class="subtitle is-6 is-italic">
+                    Please fill out all the form fields and click 'Save'
+                </h2>
 
-            {{-- Title Field --}}
-            <div class="field">
-                <label for="title" class="label">Title</label>
-                <div class="control has-icons-right">
-                    <input type="text" name="title" id="title" class="input @error('title') is-danger @enderror" value="{{ old('title') }}" autocomplete="title" autofocus>
-                    <p class="help is-info" id="titleHint" style="display: none; color: blue;">Please enter the title of your post. Max 50 characters, no special characters.</p>
-                    <p class="help is-danger" id="titleHelp">{{ $errors->first('title') }}</p>
-                    <p class="help is-success" id="titleSuccess" style="display: none;">Field filled correctly.</p>
+                {{-- Title Field --}}
+                <div class="field">
+                    <label for="title" class="label">Title</label>
+                    <div class="control has-icons-right">
+                        <input type="text" name="title" id="title" class="input @error('title') is-danger @enderror" value="{{ old('title') }}" autocomplete="title" autofocus>
+                        <p class="help is-info" id="titleHint" style="display: none; color: blue;">Please enter the title of your post. Max 50 characters, no special characters.</p>
+                        <p class="help is-danger" id="titleHelp">{{ $errors->first('title') }}</p>
+                        <p class="help is-success" id="titleSuccess" style="display: none;">Field filled correctly.</p>
+                    </div>
                 </div>
-            </div>
 
-            {{-- Date Field --}}
-            <div class="field">
-                <label for="date" class="label">Happened at:</label>
-                <div class="control has-icons-right">
-                    <input type="text" name="date" id="date" class="input @error('date') is-danger @enderror" value="{{ old('date') }}" autocomplete="date" placeholder="dd/mm/yyyy">
-                    <p class="help is-info" id="dateHint" style="display: none; color: blue;">Please enter the date of the event in the format dd/mm/yyyy.</p>
-                    <p class="help is-danger" id="dateHelp">{{ $errors->first('date') }}</p>
-                    <p class="help is-success" id="dateSuccess" style="display: none;">Field filled correctly.</p>
+                {{-- Date Field --}}
+                <div class="field">
+                    <label for="date" class="label">Happened at:</label>
+                    <div class="control has-icons-right">
+                        <input type="date" name="date" id="date" class="input @error('date') is-danger @enderror" value="{{ old('date') }}" autocomplete="date">
+                        <p class="help is-info" id="dateHint" style="display: none; color: blue;">Please enter the date of the event in the format dd/mm/yyyy.</p>
+                        <p class="help is-danger" id="dateHelp">{{ $errors->first('date') }}</p>
+                        <p class="help is-success" id="dateSuccess" style="display: none;">Field filled correctly.</p>
+                    </div>
                 </div>
-            </div>
 
-            {{-- Description Field --}}
-            <div class="field">
-                <label for="description" class="label">Description</label>
-                <div class="control has-icons-right">
-                    <textarea name="description" id="description" class="textarea @error('description') is-danger @enderror" autocomplete="description" autofocus>{{ old('description') }}</textarea>
-                    <p class="help is-info" id="descriptionHint" style="display: none; color: blue;">Please enter the description of your post.</p>
-                    <p class="help is-danger" id="descriptionHelp">{{ $errors->first('description') }}</p>
-                    <p class="help is-success" id="descriptionSuccess" style="display: none;">Field filled correctly.</p>
+                {{-- Description Field --}}
+                <div class="field">
+                    <label for="description" class="label">Description</label>
+                    <div class="control has-icons-right">
+                        <textarea name="description" id="description" class="textarea @error('description') is-danger @enderror" autocomplete="description" autofocus>{{ old('description') }}</textarea>
+                        <p class="help is-info" id="descriptionHint" style="display: none; color: blue;">Please enter the description of your post.</p>
+                        <p class="help is-danger" id="descriptionHelp">{{ $errors->first('description') }}</p>
+                        <p class="help is-success" id="descriptionSuccess" style="display: none;">Field filled correctly.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="field is-grouped button-container">
-                <div class="control">
-                    <button type="submit" class="button is-primary save-button">Save</button>
-                </div>
-                <div class="control">
-                    <a href="{{ route('work') }}" class="button is-light cancel-button">Cancel</a>
+                <div class="field is-grouped button-container">
+                    <div class="control">
+                        <button type="submit" class="button is-primary save-button">Save</button>
+                    </div>
+                    <div class="control">
+                        <a href="{{ route('work') }}" class="button is-light cancel-button">Cancel</a>
+                    </div>
                 </div>
             </div>
         </form>
@@ -101,12 +103,12 @@
                 document.getElementById('titleSuccess').style.display = 'block';
             }
 
-            // Validate Date
+            // ✅ Validate Date (now accepts YYYY-MM-DD)
             let date = document.getElementById('date').value;
-            let dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+            let dateRegex = /^\d{4}-\d{2}-\d{2}$/;
             if (!dateRegex.test(date)) {
                 valid = false;
-                document.getElementById('dateHelp').textContent = 'Date must be in the format dd/mm/yyyy.';
+                document.getElementById('dateHelp').textContent = 'Date must be in the format YYYY-MM-DD.';
             } else {
                 document.getElementById('dateHelp').textContent = '';
                 document.getElementById('dateSuccess').style.display = 'block';
@@ -141,7 +143,7 @@
 
         document.getElementById('date').addEventListener('input', function() {
             let date = this.value;
-            let dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+            let dateRegex = /^\d{4}-\d{2}-\d{2}$/;
             if (dateRegex.test(date)) {
                 document.getElementById('dateHelp').textContent = '';
                 document.getElementById('dateSuccess').style.display = 'block';

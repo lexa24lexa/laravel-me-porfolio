@@ -16,7 +16,7 @@ class BasicController extends Controller
     /* work function */
     public function work()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('date', 'desc')->get();
         return view("work", [
             'posts' => $posts,
         ]);

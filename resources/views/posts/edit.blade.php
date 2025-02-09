@@ -1,16 +1,16 @@
 <x-layout.main>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/work.css') }}">
-    <h1>Edit {{$post -> title}}</h1>
     <form action="{{route('posts.update', $post) }}" method="POST">
         @csrf
         @method('PUT')
-        <div class="post-content">
+        <div class="post">
+            <h1>Edit {{$post -> title}}</h1>
             <div class="field">
                 <label for="title" class="label">Title</label>
                 <div class="control">
                     <input type="text" name="title"
-                           class="input @error('title') is-danger @enderror"
-                           value="{{ $post->title }}" autocomplete="title" autofocus>
+                        class="input @error('title') is-danger @enderror"
+                        value="{{ $post->title }}" autocomplete="title" autofocus>
                     @error('title')
                     @enderror
                 </div>
@@ -24,8 +24,8 @@
                 <div class="control">
                     <div class="control">
                         <input type="date" name="date"
-                               class="input @error('date') is-danger @enderror"
-                               value="{{ $post->date }}" autocomplete="date" autofocus>
+                            class="input @error('date') is-danger @enderror"
+                            value="{{ $post->date }}" autocomplete="date" autofocus>
                         @error('date')
                         @enderror
                     </div>
@@ -38,9 +38,9 @@
             <div class="field">
                 <label for="description" class="label">Description</label>
                 <div class="control">
-                <textarea type="text" name="description"
-                          class="input @error('description') is-danger @enderror"
-                          autocomplete="description" autofocus>{{ $post->description }}</textarea>
+                    <textarea type="text" name="description"
+                        class="input @error('description') is-danger @enderror"
+                        autocomplete="description" autofocus>{{ $post->description }}</textarea>
                     @error('description')
                     @enderror
                 </div>
