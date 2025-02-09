@@ -1,11 +1,11 @@
 (I deleted vendor folder for this ZIP folder)
-### DevOps 3
+# DevOps 3
 
-### Security 3
+# Security 3
 
 This Laravel application follows security best practices to protect against unauthorized access and attacks, particularly Insecure Direct Object References (IDOR) and Session Hijacking.
 
-**1. Protection Against IDOR**
+## 1. Protection Against IDOR
 
 To prevent users from accessing or modifying resources they do not own, the following security measures have been implemented:
 
@@ -61,7 +61,7 @@ public function update(Request $request, Post $post)
 ```
 - Impact: Prevents unauthorized users from editing posts that do not belong to them.
 
-**2. Protection Against Session Hijacking**
+## 2. Protection Against Session Hijacking
 
 The application is configured to secure user sessions and prevent hijacking attacks.
 
@@ -102,9 +102,9 @@ Whenever a user logs in, all previous sessions are invalidated to prevent sessio
 ```php
 Auth::logoutOtherDevices($request->password);
 ```
-Impact: Ensures that only one session per user is active at a time, preventing attackers from hijacking an active session.
+- Impact: Ensures that only one session per user is active at a time, preventing attackers from hijacking an active session.
 
-**3. Protection Against Unauthorized API Access**
+## 3. Protection Against Unauthorized API Access
 
 **Sanctum Authentication for Protected Routes (Located in routes/web.php)**
 
@@ -128,123 +128,139 @@ To prevent CSRF attacks on API authentication, the application configures truste
 ```
 - Impact: Ensures that authentication is only valid within a trusted domain.
 
-### Testing
-To start this testing, I started by testing the connection with the database.
+# Testing
 
-<img src="public/image/databaseConnection.jpg" alt="database connection">
-<p style="font-style: italic">Figure 1: MariaDB connection.</p>
+## Test Plan
 
-Then, I did migrate fresh and seed the previous created posts to test the database.
+This document describes the test plan to ensure the quality and security of the system. The tests will be conducted at different levels, following the V-Model, and will include **unit tests, system tests, and evaluation of results**.
 
-<img src="public/image/migrateSeed.jpg" alt="migrate fresh & seed">
-<p style="font-style: italic">Figure 2: php artisan migrate:fresh & php artisan db:seed.</p>
+### The test plan covers the following functionalities:
+- **Authentication (Login)**
+- **CRUD operations for posts** (create, edit, delete)
+- **Permission system** (action restriction based on roles)
+- **Security measures**
+  - Protection against IDOR (Insecure Direct Object Reference)
+  - Prevention of Session Hijacking
+  - Secure API access
 
-# User Story 1: Post Creation and Update Management (Feature Test)
-As a user, I want to create and update posts on the platform.
+### What will NOT be tested
+- UI end-to-end tests (focus is on API and backend testing)
+- Performance/stress testing (out of scope for this project)
 
-## System Test Scenarios:
-### Happy Path:
+### Tools
+- **Testing framework:** PHPUnit (Laravel)
+- **Test data generator:** Laravel Factories
+- **Environment:** Docker or Homestead for isolated environments
+- **CI/CD:** GitHub Actions for test automation
 
-* Creating a New Post:
-<br>**Given** a user wants to create a new post,
-<br>**When** they fill out the post creation form with valid data and submit it,
-<br>**Then** a new post should be stored in the database.
-* Updating an Existing Post:
-<br>**Given** a user wants to update an existing post,
-<br>**When** they edit the post details and save the changes,
-<br>**Then** the post should reflect the updated information in the database.
+### Link to the V-Model
+The test plan is structured according to the V-Model:
+- **Unit Tests** - Validate individual components (e.g., functions and controllers).
+- **Integration Tests** - Ensure modules communicate correctly.
+- **System Tests** - Test the complete system with real workflows.
+- **Acceptance Tests** - Validate that the system meets business requirements.
 
-### Unhappy Paths:
+### Testing Strategy
+The tests will follow the **Given-When-Then** or **AAA (Arrange-Act-Assert)** principles.
 
-* Creating a Post with Invalid Data:
-<br>**Given** a user tries to create a new post with incomplete or invalid data,
-<br>**When** they submit the form,
-<br>**Then** an error message should prevent the creation of the post.
+## Unit Testing
+- **Test Structure:** Given-When-Then or AAA (Arrange-Act-Assert).
+- **Coverage of Happy and Unhappy Paths:**
+  - 🟢 **Happy Path:** Ensuring core functionalities like login and CRUD work correctly.
+  - 🔴 **Unhappy Path:** Handling invalid inputs, failed authentication, and unauthorized access.
+- **Use of Factories:** Generate test data efficiently to ensure reproducibility.
 
-* Updating a Post with Incorrect Information:
-<br>**Given** a user attempts to update a post with incorrect information,
-<br>**When** they save the changes,
-<br>**Then** the post data should remain unchanged in the database.
+**_User Stories with Happy and Unhappy Paths_**
+<br>
+<ins> 1. Login User Stories </ins>
+<br>
+**Happy Path:**
+- **As a user**, I want to log in with my correct credentials **so that** I can access my dashboard.
+  - **Given** I have a valid account,
+  - **When** I submit the correct email and password,
+  - **Then** I should be authenticated and redirected to the dashboard.
 
-## Unit Test Scenarios:
-### Post Creation:
+**Unhappy Paths:**
+- **As a user**, I should not be able to log in with incorrect credentials **so that** my account remains secure.
+  - **Given** I have an account,
+  - **When** I enter an incorrect password,
+  - **Then** I should see an error message and remain on the login page.
 
-* **Given** a new Post model instance,
-* **When** a new post is created using Post::create(),
-* **Then** the post should be successfully stored in the database with the correct attributes.
+- **As a user**, I should not be able to log in without providing a password **so that** empty submissions are not allowed.
+  - **Given** I am on the login page,
+  - **When** I attempt to log in without a password,
+  - **Then** I should receive a validation error.
 
-<img src="public/image/unitcreate.jpg" alt="unit test create">
-<p style="font-style: italic">Figure 3: unit test create a new post.</p>
+<ins> 2. CRUD Permissions Tests </ins>
+<br>
+**Happy Path:**
+- **As an admin**, I want to create, edit, and delete posts **so that** I can manage the content of the platform.
+  - **Given** I am an authenticated admin,
+  - **When** I create, edit, or delete a post,
+  - **Then** the action should be successfully completed.
 
-<img src="public/image/featurestore.jpg" alt="feature test store">
-<p style="font-style: italic">Figure 4: feature test stores a new post.</p>
+**Unhappy Paths:**
+- **As a normal user**, I should not be able to create posts **so that** unauthorized content management is prevented.
+  - **Given** I am logged in as a normal user,
+  - **When** I attempt to create a post,
+  - **Then** I should receive an error message.
 
+- **As a user**, I should not be able to delete a post that does not belong to me **so that** unauthorized data manipulation is prevented (IDOR protection).
+  - **Given** I am logged in as a normal user,
+  - **When** I attempt to delete another user’s post,
+  - **Then** I should receive a permission error.
 
-### Post Update:
+**_Unit Test Examples_**
+<br>
+<ins>1. Login Tests</ins>
+<br>
+- ✅ Login with correct credentials (happy path).
+- ✅ Login with incorrect credentials (unhappy path).
+- ✅ Login attempt without providing a password (unhappy path).
+![alt text](image.png)
 
-* **Given** an existing Post instance,
-* **When** the post is updated using Post::update(),
-* **Then** the post data should reflect the updated attributes.
+2️⃣ CRUD Permissions Tests
+✅ Admin pode criar, editar, apagar posts (happy path).
+❌ Utilizador normal não pode criar posts (unhappy path).
+❌ Tentativa de apagar um post que não pertence ao utilizador (IDOR protection).
 
-<img src="public/image/unitupdate.jpg" alt="unit test update">
-<p style="font-style: italic">Figure 5: unit test updates the post.</p>
+3️⃣ Security Tests (IDOR & Session Hijacking)
+✅ Utilizador autenticado acessa os seus próprios dados (happy path).
+❌ Utilizador tenta acessar dados de outro utilizador diretamente via URL (IDOR test).
+❌ Simulação de Session Hijacking para validar proteção.
 
-<img src="public/image/featureupdate.jpg" alt="feature test update">
-<p style="font-style: italic">Figure 6: feature test updates the post.</p>
+## System Testing
+Seguir Given-When-Then ou AAA
+Abranger Happy e Unhappy Paths
+Uso de Factories para Dados de Teste
+Cobertura de Edge Cases
+Testes Automatizados no Source Control
+📌 Exemplos de System Tests
+1️⃣ Login Flow Test
+Given um utilizador registado,
+When ele introduz credenciais corretas e submete o formulário,
+Then ele deve ser autenticado e redirecionado para a dashboard.
 
-### Tests Coverage Rationale:
-* **System Tests:** Validate critical user-facing functionalities related to post creation and update.
-* **Unit Tests:** Ensure core model functionalities related to data manipulation are correctly implemented.
+2️⃣ IDOR Protection Test
+Given dois utilizadores autenticados (User A e User B),
+When o User A tenta acessar um recurso do User B alterando o ID na URL,
+Then o sistema deve retornar um erro 403 (Forbidden).
 
-### Test Execution:
-* **System Tests:** Validate integrated features from the user interface to the database layer.
-* **Unit Tests:** Validate individual model functionalities and database interactions.
+3️⃣ API Security Test
+Testar se endpoints exigem autenticação.
+Testar rate limiting (proteção contra brute force).
+Testar acessos não autorizados.
 
-### Evaluation of Test Quality:
-* **Conclusion on Test Results:** Critical functionalities related to post creation and update are verified to function correctly.
-* **Improvement Proposal:** Enhance test coverage by incorporating more edge cases and integrating automated testing with continuous integration tools.
+## Test effectivity
 
-# User Story 2: Post Deletion Management (Feature Test)
-As a user, I want to delete posts on the platform.
-
-## System Test Scenarios:
-### Happy Path:
-* Deleting an Existing Post:
-<br>**Given** a user wants to delete an existing post,
-<br>**When** they confirm the deletion action,
-<br>**Then** the post should be permanently removed from the database.
-
-### Unhappy Paths:
-* Deleting a Non-Existent Post:
-<br>**Given** a user tries to delete a post that does not exist,
-<br>**When** they initiate the deletion process,
-<br>**Then** no action should be taken, and the post should still exist.
-
-## Unit Test Scenarios:
-### Post Deletion:
-* **Given** an existing Post instance,
-* **When** the post is deleted using $post->delete(),
-* **Then** the post should be removed from the database.
-
-<img src="public/image/unitdelete.jpg" alt="unit test delete">
-<p style="font-style: italic">Figure 7: unit test delete the post.</p>
-
-<img src="public/image/featuredelete.jpg" alt="feature test deletes">
-<p style="font-style: italic">Figure 8: feature test delete the post.</p>
-
-### Tests Coverage Rationale:
-* **System Tests:** Validate critical user-facing functionalities related to post deletion.
-* **Unit Tests:** Ensure core model functionalities related to data manipulation are correctly implemented.
-
-### Test Execution:
-* **System Tests:** Validate integrated features from the user interface to the database layer.
-* **Unit Tests:** Validate individual model functionalities and database interactions.
-
-### Evaluation of Test Quality:
-* **Conclusion on Test Results:** Critical functionalities related to post deletion are verified to function correctly.
-* **Improvement Proposal:** Enhance test coverage by incorporating more edge cases and integrating automated testing with continuous integration tools.
-
-# Final testing
-
-<img src="public/image/testing.jpg" alt="unit and feature testing">
-<p style="font-style: italic">Figure 9: php artisan test to test everything.</p>
+## Evaluation
+Conclusão dos Resultados
+O que os testes indicam sobre a qualidade do projeto?
+Há problemas críticos identificados?
+Reflexão Crítica
+O plano de testes cobriu tudo necessário?
+Houve dificuldades na implementação dos testes?
+Propostas de Melhorias
+Melhor cobertura de edge cases?
+Otimização de tempo de execução dos testes?
+Melhor integração com CI/CD?
