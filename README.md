@@ -172,7 +172,7 @@ The tests will follow the **Given-When-Then** or **AAA (Arrange-Act-Assert)** pr
 
 **_User Stories with Happy and Unhappy Paths_**
 <br>
-<ins> 1. Login User Stories </ins>
+<ins>1. Login User Stories</ins>
 <br>
 **Happy Path:**
 - **As a user**, I want to log in with my correct credentials **so that** I can access my dashboard.
@@ -191,24 +191,45 @@ The tests will follow the **Given-When-Then** or **AAA (Arrange-Act-Assert)** pr
   - **When** I attempt to log in without a password,
   - **Then** I should receive a validation error.
 
-<ins> 2. CRUD Permissions Tests </ins>
+<ins>2. CRUD Permissions Tests</ins>
 <br>
 **Happy Path:**
-- **As an admin**, I want to create, edit, and delete posts **so that** I can manage the content of the platform.
-  - **Given** I am an authenticated admin,
+
+- **As an admin**, I want to create, edit, and delete posts **so that** I can manage the platform's content.
+  - **Given** I am authenticated as an admin,
   - **When** I create, edit, or delete a post,
   - **Then** the action should be successfully completed.
 
 **Unhappy Paths:**
-- **As a normal user**, I should not be able to create posts **so that** unauthorized content management is prevented.
+- **As a normal user**, I should not be able to create posts **to prevent** unauthorized content management.
   - **Given** I am logged in as a normal user,
   - **When** I attempt to create a post,
   - **Then** I should receive an error message.
 
-- **As a user**, I should not be able to delete a post that does not belong to me **so that** unauthorized data manipulation is prevented (IDOR protection).
+- **As a user**, I should not be able to delete a post that does not belong to me **to prevent** unauthorized data manipulation (IDOR protection).
   - **Given** I am logged in as a normal user,
   - **When** I attempt to delete another user’s post,
   - **Then** I should receive a permission error.
+<br>
+<ins>3.Security Tests (IDOR & Session Hijacking)</ins>
+<br>
+**Happy Paths:**
+
+- **As a user**, I want to access only my own data so that my personal information remains private.
+  - **Given** I am authenticated,
+  - **When** I request my profile data,
+  - **Then** I should receive my own information and a 200 OK response.
+
+**Unhappy Paths:**
+- **As a user**, I should not be able to access another user's data to prevent unauthorized access (IDOR).
+  - **Given** I am authenticated,
+  - **When** I try to access another user's profile via URL manipulation,
+  - **Then** I should receive a 403 Forbidden or 401 Unauthorized response.
+
+- **As an attacker**, I should not be able to hijack another user's session so that accounts remain secure.
+  - **Given** a valid user is logged in,
+  - **When** an unauthorized party tries to reuse their session ID,
+  - **Then** the system should detect and block the attempt, requiring reauthentication.
 
 **_Unit Test Examples_**
 <br>
@@ -219,12 +240,15 @@ The tests will follow the **Given-When-Then** or **AAA (Arrange-Act-Assert)** pr
 - ✅ Login attempt without providing a password (unhappy path).
 ![alt text](image.png)
 
-2️⃣ CRUD Permissions Tests
-✅ Admin pode criar, editar, apagar posts (happy path).
-❌ Utilizador normal não pode criar posts (unhappy path).
-❌ Tentativa de apagar um post que não pertence ao utilizador (IDOR protection).
+<ins>2. CRUD Permissions Tests</ins>
+<br>
+✅ Normal user CANNOT create posts (unhappy path).
+✅ Normal user CANNOT edit posts (unhappy path).
+✅ Normal user CANNOT delete posts (unhappy path).
+❌ Admin can create, edit, update and delete posts (happy path), test FAILS – issue unknown.
 
-3️⃣ Security Tests (IDOR & Session Hijacking)
+<ins>3.Security Tests (IDOR & Session Hijacking)</ins>
+<br>
 ✅ Utilizador autenticado acessa os seus próprios dados (happy path).
 ❌ Utilizador tenta acessar dados de outro utilizador diretamente via URL (IDOR test).
 ❌ Simulação de Session Hijacking para validar proteção.
