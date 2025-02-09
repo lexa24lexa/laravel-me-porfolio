@@ -6,8 +6,10 @@
             <p>Happened at: {{$post->date}}</p>
             <p>Description: {{$post->description}}</p>
             <div class="button-container">
+                @if(auth()->check() && auth()->user()->role === 'admin')
                 <a href="{{ route('posts.edit', $post) }}" class="edit-button">Edit</a>
                 <a href="{{ route('posts.delete', $post) }}" class="delete-button">Delete</a>
+                @endif
                 <a href="{{ route('work') }}" class="cancel-button">Cancel</a>
             </div>
         </div>
